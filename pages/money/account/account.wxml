@@ -1,0 +1,15 @@
+<view class="container">
+    <!-- 收支明细 -->
+    <scroll-view class="account_list" scroll-y="true">
+        <view class="account_list_item" wx:for="{{ accountList }}">
+            <view class="type {{ item.type == 1 ? 'blue':'orange' }}">
+                {{ item.type == 1 ? '支出':'收入' }}
+                <text>{{ item.total }}元</text>
+            </view>
+            <view class="text">
+                {{ item.text }}
+                <text>{{ item.time }}</text>
+            </view>
+        </view>
+    </scroll-view>
+</view>

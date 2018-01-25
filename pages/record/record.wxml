@@ -1,0 +1,33 @@
+<view class="container">
+    <!-- 导航 -->
+    <view class="nav">
+        <view class="nav_item {{navActiveFirst ? 'active' : ''}}" bindtap='changeTab'>
+            我发出的
+        </view>
+        <view class="nav_item {{navActiveFirst ? '' : 'active'}}" bindtap='changeTab'>
+            我收到的
+        </view>
+    </view>
+    <view class="record__content">
+        <view class="userinfo">
+            <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+            <view class="nickname">{{userInfo.nickName}}</view>
+            <view class="pocket_num">{{navActiveFirst ? '共发出'+ sendNum + '个红包' : '共收到'+ receiveNum + '个红包'}}</view>
+            <view class="pocket_money"><text>{{navActiveFirst ? sendMoney : receiveMoney}}</text>元</view>
+        </view>
+        <view class="BottomBlock">
+            <scroll-view class="record_list" scroll-y="true">
+                <view class="record_list_item" wx:for="{{navActiveFirst ? sendList : receiveList}}">
+                    <view class="text">
+                        {{ item.text }}
+                        <text>{{ item.total }}元</text>
+                    </view>
+                    <view class="time">
+                        {{ item.time }}
+                        <text>已领完 {{ item.yet }}/{{item.num}}</text>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+    </view>
+</view>

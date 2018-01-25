@@ -1,0 +1,19 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/mine/question/question",
+        "pages/money/account/account",
+        "pages/money/money",
+        "pages/mine/mine",
+        "pages/record/record",
+        "pages/logs/logs"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#daab5f",
+        "navigationBarTitleText": "泡面小红包",
+        "navigationBarTextStyle": "white",
+        "backgroundColor": "#eeeeee"
+    },
+    "debug": true
+}
