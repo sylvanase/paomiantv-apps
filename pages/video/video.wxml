@@ -1,0 +1,21 @@
+<view class="container">
+    <view class="video__tips">
+        <!-- 弧形背景 -->
+        <view class="video__tips_bg"></view>
+        <view class="video__tips_link">
+            <image src="/assets/camera.png"></image>
+            <view class="text">拍摄视频</view>
+        </view>
+        <view class="tip1">拍摄自己的祝福小视频</view>
+        <view class="tip2">瓜分10,000.00现金红包</view>
+        <view class="tip3">数量有限先到先得</view>
+    </view>
+    <view class="video__list">
+        <block wx:for="{{ videoList }}">
+            <view class="video__list_item">
+                <image src="{{ item.src }}"></image>
+                <button>使用</button>
+            </view>
+        </block>
+    </view>
+</view>

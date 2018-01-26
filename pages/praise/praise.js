@@ -8,31 +8,21 @@ Page({
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         balance: 0.00, // 余额
-        isShowPop: false // 是否显示pop
+        themeIndex: '',
+        theme:['美丽','才华','多金'],
+        conditionIndex:'',
+        condition:['限制1','限制2','限制2']
     },
-    linkToVideo: function () { // 跳转到换视频
-        wx.navigateTo({
-            url: '../video/video'
+    changeTheme:function (e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.setData({
+            themeIndex: e.detail.value
         })
     },
-    linkToPraise: function () { // 跳转到赞美红包页
-        wx.navigateTo({
-            url: '../praise/praise'
-        })
-    },
-    linkToRecord: function () { // 跳转到记录页面
-        wx.navigateTo({
-            url: '../record/record'
-        })
-    },
-    linkToMoney: function () { // 跳转到提现页面
-        wx.navigateTo({
-            url: '../money/money'
-        })
-    },
-    linkToMine: function () { // 跳转到我的页面
-        wx.navigateTo({
-            url: '../mine/mine'
+    changeCondition:function (e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        this.setData({
+            conditionIndex: e.detail.value
         })
     },
     onLoad: function () {

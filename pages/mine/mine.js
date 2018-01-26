@@ -8,9 +8,19 @@ Page({
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
+    linkToRecord: function () { // 跳转到记录页面
+        wx.navigateTo({
+            url: '../record/record'
+        })
+    },
     linkToQuestion: function () { // 跳转到常见问题页
         wx.navigateTo({
             url: 'question/question'
+        })
+    },
+    linkToMoney: function () { // 跳转到提现
+        wx.navigateTo({
+            url: '../money/money'
         })
     },
     onLoad: function () {

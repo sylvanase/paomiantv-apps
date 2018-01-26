@@ -1,11 +1,17 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/mine/question/question",
-        "pages/money/account/account",
-        "pages/money/money",
-        "pages/mine/mine",
+        "pages/index/share/share",
+        "pages/praise/praise",
+        "pages/praise/share/share",
+        "pages/video/video",
         "pages/record/record",
+        "pages/money/money",
+        "pages/money/account/account",
+        "pages/mine/mine",
+        "pages/mine/question/question",
+        "pages/share/index/index",
+        "pages/share/praise/praise",
         "pages/logs/logs"
     ],
     "window": {

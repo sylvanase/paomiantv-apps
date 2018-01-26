@@ -1,0 +1,48 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="pocket__form">
+        <view class="pocket__form_header">
+            <view class="pocket__form_header_user">
+                <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+                <text class="nickname">{{userInfo.nickName}}</text>
+            </view>
+        </view>
+        <!-- 红包表单 -->
+        <view class="pocket__form_body">
+            <view class="item">
+                <view class="label">赏金（元）</view>
+                <input type='number' placeholder='请输入金额' placeholder-class="placeholder"></input>
+            </view>
+            <view class="item">
+                <view class="label">数量（个）</view>
+                <input type='number' placeholder='请输入红包数量' placeholder-class="placeholder"></input>
+            </view>
+            <view class="item picker" style="margin-bottom: 22rpx;">
+                <view class="label">赞美主题</view>
+                <picker bindchange="changeTheme" value="{{themeIndex}}" range="{{theme}}">
+                    <view>
+                        {{ themeIndex == '' ? '请选择主题' : theme[themeIndex] }}
+                        <view class="arrow"></view>
+                    </view>
+                </picker>
+            </view>
+            <view class="item picker">
+                <view class="label">可领取门槛</view>
+                <picker bindchange="changeCondition" value="{{conditionIndex}}" range="{{condition}}">
+                    <view>
+                        {{ conditionIndex == '' ? '请选择' : condition[conditionIndex] }}
+                        <view class="arrow"></view>
+                    </view>
+                </picker>
+            </view>
+            <!-- 提交红包按钮 -->
+            <view class="item">
+                <button>生成红包</button>
+            </view>
+        </view>
+        <!-- 用户余额显示处 -->
+        <view class="pocket__form_footer">
+            优先使用账户余额，当前余额为￥{{ balance }}
+        </view>
+    </view>
+</view>

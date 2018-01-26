@@ -27,7 +27,7 @@
             <view class="item">
                 <image class="add_video"  src="/assets/add_video.png"></image>
             </view>
-            <view class="item">
+            <view class="item" bindtap="linkToVideo">
                 <text class="change_video">换个视频</text>
             </view>
             <!-- 提交红包按钮 -->
@@ -41,7 +41,7 @@
         </view>
     </view>
     <!-- 链接至发赞美红包页面 -->
-    <view class="pocket__new_link">
+    <view class="pocket__new_link" bindtap="linkToPraise">
         <image class="like" src="/assets/pocket_like.png"></image>
         <text class="like_text">开口赞我，红包拿去</text>
     </view>

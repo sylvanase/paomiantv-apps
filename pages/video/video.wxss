@@ -1,0 +1,83 @@
+.video__tips {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #e7ba60;
+}
+
+.video__tips_bg{
+    width: 130%;
+    background-color: #daab5f;
+    height: 600rpx;
+    border-radius: 50%;
+    margin-top: -440rpx;
+}
+
+.video__tips_link{
+    width: 268rpx;
+    height: 180rpx;
+    border-radius: 5px;
+    box-shadow: 5rpx 3rpx 5rpx rgba(132,6,6,0.5);
+    background-color: #fff;
+    text-align: center;
+    margin-top: -108rpx;
+}
+
+.video__tips_link image{
+    width: 132rpx;
+    height: 114rpx;
+    margin-top: 16rpx;
+}
+
+.video__tips_link .text{
+    color: #988464;
+    font-size: 28rpx;
+    line-height:1;
+}
+
+.tip1{
+    font-size: 24rpx;
+    line-height: 1;
+    margin: 25rpx auto 23rpx;
+}
+
+.tip2{
+    font-size: 48rpx;
+    line-height: 1;
+    margin-bottom: 28rpx;
+}
+
+.tip3{
+    font-size: 28rpx;
+    line-height: 1;
+    margin-bottom: 40rpx;
+}
+
+.video__list{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    flex-wrap: wrap;
+}
+
+.video__list_item{
+    width: 30%;
+    text-align: center;
+    margin-bottom: 42rpx;
+}
+
+.video__list_item image{
+    border: 3px solid #e7ba60;
+    width: 174rpx;
+    height:244rpx;
+    margin-bottom: 20rpx;
+}
+
+.video__list_item button{
+    width: 190rpx;
+    background-color: #e7ba60;
+    font-size: 26rpx;
+    color: #fff;
+    height: 50rpx;
+    line-height: 50rpx;
+}

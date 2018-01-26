@@ -6,34 +6,7 @@ Page({
     data: {
         userInfo: {},
         hasUserInfo: false,
-        canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        balance: 0.00, // 余额
-        isShowPop: false // 是否显示pop
-    },
-    linkToVideo: function () { // 跳转到换视频
-        wx.navigateTo({
-            url: '../video/video'
-        })
-    },
-    linkToPraise: function () { // 跳转到赞美红包页
-        wx.navigateTo({
-            url: '../praise/praise'
-        })
-    },
-    linkToRecord: function () { // 跳转到记录页面
-        wx.navigateTo({
-            url: '../record/record'
-        })
-    },
-    linkToMoney: function () { // 跳转到提现页面
-        wx.navigateTo({
-            url: '../money/money'
-        })
-    },
-    linkToMine: function () { // 跳转到我的页面
-        wx.navigateTo({
-            url: '../mine/mine'
-        })
+        canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
     onLoad: function () {
         if (app.globalData.userInfo) {

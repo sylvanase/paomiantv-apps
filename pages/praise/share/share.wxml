@@ -1,0 +1,20 @@
+<view class="container">
+    <view class="user__info">
+        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="tips">发了一个红包</text>
+    </view>
+    <!-- 祝福语 -->
+    <view class="blessings">恭喜发财 万事如意</view>
+    <!-- 二维码 -->
+    <view class="qs">
+        <image src=""></image>
+    </view>
+    <view class="handle__btn">
+        <view class="grey">转发到群聊</view>
+        <view class="green">分享到朋友圈</view>
+    </view>
+    <view class="bottom">
+        <image src="/assets/share_bottom.png"></image>
+    </view>
+</view>
