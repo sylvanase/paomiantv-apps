@@ -1,8 +1,12 @@
 <view class="container">
-    <view class="share__video">
+    <view class="share__pocket">
         <!-- 弧形背景 -->
-        <view class="video_bg"></view>
-        <video src="{{src}}"  controls="false" autoplay="true"></video>
+        <view class="share__pocket_bg"></view>
+        <view class="share__pocket_info">
+            <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+            <text class="nickname">{{userInfo.nickName}}</text>
+            <text class="theme">赞美的主题</text>
+        </view>
         <view class="tip">
             <!-- 包含三种状态 -->
             <!-- 1. 未抢到-->
@@ -10,7 +14,7 @@
                 手慢了没抢到<text>我也去发一个</text>
             </view>
             <!-- 2.领红包 -->
-            <view class="status2" wx:if="{{status == 2}}">立刻领取红包</view>
+            <view class="status2" wx:if="{{status == 2}}">按住说出你的赞美</view>
             <!-- 3.已抢金额 -->
             <view class="status3" wx:if="{{status == 3}}">
                 <text>88888</text>元
