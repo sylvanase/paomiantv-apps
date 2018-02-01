@@ -3,58 +3,74 @@
 const app = getApp()
 
 Page({
-    data: {
-        accountList:[
-            {type: 1,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'},
-            {type: 0,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'},
-            {type: 1,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'},
-            {type: 1,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'},
-            {type: 1,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'},
-            {type: 1,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'},
-            {type: 0,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'},
-            {type: 1,text:'孔二狗新年快乐',total:89.00,time:'1-11 6:20'}
-        ]
-    },
-    //事件处理函数
-    bindViewTap: function () {
-        wx.navigateTo({
-            url: '../logs/logs'
-        })
-    },
-    onLoad: function () {
-        if (app.globalData.userInfo) {
-            this.setData({
-                userInfo: app.globalData.userInfo,
-                hasUserInfo: true
-            })
-        } else if (this.data.canIUse) {
-            // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-            // 所以此处加入 callback 以防止这种情况
-            app.userInfoReadyCallback = res => {
-                this.setData({
-                    userInfo: res.userInfo,
-                    hasUserInfo: true
-                })
-            }
-        } else {
-            // 在没有 open-type=getUserInfo 版本的兼容处理
-            wx.getUserInfo({
-                success: res => {
-                    app.globalData.userInfo = res.userInfo
-                    this.setData({
-                        userInfo: res.userInfo,
-                        hasUserInfo: true
-                    })
-                }
-            })
-        }
-    },
-    getUserInfo: function (e) {
-        console.log(e)
-        app.globalData.userInfo = e.detail.userInfo
+  data: {
+    accountList: [
+      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
+      { type: 0, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
+      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
+      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
+      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
+      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
+      { type: 0, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
+      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' }
+    ]
+  },
+  //事件处理函数
+  bindViewTap: function () {
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
+  },
+  onLoad: function () {
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
         this.setData({
-            userInfo: e.detail.userInfo,
-            hasUserInfo: true
+          userInfo: res.userInfo,
+          hasUserInfo: true
         })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
     }
+  },
+  getUserInfo: function (e) {
+    console.log(e)
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+  },
+
+  getBill: function () {
+    var sessionid = app.globalData.jsessionid;
+    wx.request({
+      url: app.globalData.baseUrl + '/api/packet/bill?jsessionid=' + sessionid +"&minId=0",
+      success: result => {
+        console.log("getBill=" + JSON.stringify(result.data));
+        if (result.data && result.data.status == 0 && result.data.data) {
+          this.setData({
+            accountList: result.data.data.list
+          })
+        }
+      }
+    })
+  },
+
 })

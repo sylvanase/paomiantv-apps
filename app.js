@@ -6,10 +6,22 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    // 登录
-    wx.login({
+    //先将缓存的sessionid保存到内存，然后再检查
+    var sessionid = wx.getStorageSync('jsessionid');
+    console.log("checksesison jsessionid=" + sessionid);
+    if(sessionid){
+      this.globalData.jsessionid = sessionid;
+    }
+
+    wx.checkSession({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        //session 未过期，并且在本生命周期一直有效
+        //this.login();
+      },
+      fail: res => {
+        //登录态过期, 重新登录
+        this.clearSessionId();
+        this.login();
       }
     })
     // 获取用户信息
@@ -34,6 +46,77 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    baseUrl: 'https://xcxdev.pmvip.top/xcx_redpacket',
+    jsessionid: null
+  },
+
+  login: function () {
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        if (res.code) {
+          console.log("res.code=" + res.code);
+          this.getjsessionid(res.code);
+        }
+      },
+      fail: rs => {
+        console.log(rs);
+      }
+    })
+  },
+
+  getjsessionid: function (code) {
+    wx.request({
+      url: this.globalData.baseUrl + '/api/auth/login',
+      method: 'POST',
+      data: {
+        code: code
+      },
+      header: {
+        //'content-type': 'application/json' // 默认值
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: result => {
+        if (result.data && result.data.status == 0 && result.data.data.jsessionid) {
+          this.saveSessionId(result.data.data.jsessionid);
+          wx.getUserInfo({
+            withCredentials: true,
+            lang: 'zh_CN',
+            success: res => {
+              this.postUserInfo(res);
+            }
+          })
+        }
+      }
+    })
+  },
+
+  saveSessionId: function (sessionid) {
+    try {
+      this.globalData.jsessionid = sessionid;
+      wx.setStorageSync('jsessionid', sessionid);
+    } catch (e) {
+    }
+  },
+
+  clearSessionId: function () {
+    wx.removeStorageSync('jsessionid');
+    this.globalData.jsessionid = null
+  },
+
+  postUserInfo: function (userinfo) {
+    var sessionid = this.globalData.jsessionid;
+    wx.request({
+      url: this.globalData.baseUrl + '/api/auth/userinfo?jsessionid=' + sessionid,
+      method: 'POST',
+      data: userinfo,
+      success: result => {
+        console.log(result.data.status + "," + result.data.error);
+      }
+    })
   }
 })
+
+
+

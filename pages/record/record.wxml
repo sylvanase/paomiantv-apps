@@ -17,14 +17,14 @@
         </view>
         <view class="BottomBlock">
             <scroll-view class="record_list" scroll-y="true">
-                <view class="record_list_item" wx:for="{{navActiveFirst ? sendList : receiveList}}">
+                <view class="record_list_item" wx:for="{{navActiveFirst ? sendList : receiveList}}" wx:key="item[0]">
                     <view class="text">
-                        {{ item.text }}
-                        <text>{{ item.total }}元</text>
+                        {{ item[2] }}
+                        <text>{{ item[3] }}元</text>
                     </view>
                     <view class="time">
-                        {{ item.time }}
-                        <text>已领完 {{ item.yet }}/{{item.num}}</text>
+                        {{ item[5] }}
+                        <text>已领完 {{ item[6] }}/{{item[4]}}</text>
                     </view>
                 </view>
             </scroll-view>

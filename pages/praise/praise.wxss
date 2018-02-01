@@ -49,6 +49,8 @@
 
 .pocket__form_body input{
     border-bottom: 1px solid #bdbdbd;
+    font-size: 30rpx;
+    line-height: 36rpx;
 }
 
 .pocket__form_body .item.picker{

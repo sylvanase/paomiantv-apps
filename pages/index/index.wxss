@@ -62,6 +62,8 @@
 
 .pocket__form_body input{
     border-bottom: 1px solid #bdbdbd;
+    font-size: 30rpx;
+    line-height: 36rpx;
 }
 
 .pocket__form_body .short{
@@ -76,6 +78,14 @@
     width: 217rpx;
     height: 215rpx;
     margin: 0 auto;
+}
+
+.pocket__form_body .video_cover{
+    box-sizing: border-box;
+    width: 154rpx;
+    height: 215rpx;
+    margin: 0 auto;
+    border: 3px solid #deceae;
 }
 
 .pocket__form_body .change_video{

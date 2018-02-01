@@ -11,10 +11,10 @@
         <view class="tip3">数量有限先到先得</view>
     </view>
     <view class="video__list">
-        <block wx:for="{{ videoList }}">
+        <block wx:for="{{ videoList }}" wx:key="{{item[0]}}">
             <view class="video__list_item">
-                <image src="{{ item.src }}"></image>
-                <button>使用</button>
+                <image src="{{ item[2] }}"></image>
+                <button bindtap='useVideo' data-item="{{item}}">使用</button>
             </view>
         </block>
     </view>

@@ -14,25 +14,28 @@
             <view class="item">
                 <view class="label">发祝福语</view>
                 <input type='text' placeholder='恭喜发财新年快乐' maxlength="10" placeholder-class="placeholder"
-                       class='short'></input>
+                       class='short' value='{{packet.title}}' confirm-type="next" data-key="packet.title" bindinput="handleInput"></input>
             </view>
             <view class="item">
                 <view class="label">赏金（元）</view>
-                <input type='number' placeholder='请输入金额' placeholder-class="placeholder" class='long'></input>
+                <input type='digit' placeholder='请输入金额' placeholder-class="placeholder" class='long' value='{{packet.amount}}' disabled='{{packet.type == 2 ? true : false}}' confirm-type="next"  data-key="packet.amount"  bindinput="handleInput"></input>
             </view>
             <view class="item">
                 <view class="label">数量（个）</view>
-                <input type='number' placeholder='请输入红包数量' placeholder-class="placeholder" class='long'></input>
+                <input type='number' placeholder='请输入红包数量' placeholder-class="placeholder" class='long' value='{{packet.number}}' disabled='{{packet.type == 2 ? true : false}}' confirm-type="next" data-key="packet.number"  bindinput="handleInput"></input>
             </view>
-            <view class="item">
+            <view class="item"  wx:if="{{packet.videoImgUrl==null}}">
                 <image class="add_video"  src="/assets/add_video.png"></image>
+            </view>
+            <view class="item"  wx:else>
+                <image class="video_cover"  src="{{packet.videoImgUrl}}"></image>
             </view>
             <view class="item" bindtap="linkToVideo">
                 <text class="change_video">换个视频</text>
             </view>
             <!-- 提交红包按钮 -->
             <view class="item">
-                <button >生成红包</button>
+                <button bindtap="createVideoPacket">生成红包</button>
             </view>
         </view>
         <!-- 用户余额显示处 -->
@@ -61,9 +64,9 @@
         </view>
     </view>
     <!-- 提示弹窗 去掉hide -->
-    <view class="pop {{isShowPop ? '' : 'hide'}}">
+    <view class="pop {{isShowPop ? '' : 'hide'}}" >
         <view class="pop_shade"></view>
-        <image class="pop_close" src="/assets/pop_close.png"></image>
+        <image class="pop_close" src="/assets/pop_close.png" bindtap="openRedPacket"></image>
         <view class="pop_tips_bg">
             <image src="/assets/home_pop_pocket.png"></image>
         </view>
@@ -74,7 +77,7 @@
             </text>
             <text class="tips3">快来和小伙伴们一起拆开吧</text>
         </view>
-        <view class="pop_pocket_btn">
+        <view class="pop_pocket_btn" bindtap="openRedPacket">
             <button>拆红包</button>
         </view>
     </view>
