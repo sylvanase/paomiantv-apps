@@ -1,3 +1,6 @@
+page{
+    background-color: #fff;
+}
 .nav{
     position: fixed;
     top: 0;
@@ -30,6 +33,8 @@
     display: flex;
     flex-direction: column;
     align-items:center;
+    background-color: #c63629;
+    padding-bottom: 69rpx;
 }
 .avatar{
     width: 125rpx;
@@ -63,19 +68,12 @@
     margin-right: 16rpx;
 }
 
-.BottomBlock{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
 .record_list{
-    height: 678rpx;
     background-color: #fff;
 }
 
 .record_list_item{
-    padding: 23rpx 30rpx;
+    padding: 32rpx 30rpx;
     border-bottom: 1px solid #c6c6c6;
 }
 .record_list_item .text{

@@ -7,9 +7,7 @@
                     <text>{{ item.title }}</text>
                     <image src="{{ index == openItem  ? '/assets/question_open.png':'/assets/question_close.png' }}"></image>
                 </view>
-                <view class="des">
-                    {{ item.des }}
-                </view>
+                <text class="des">{{ item.des }}</text>
             </view>
         </block>
     </scroll-view>

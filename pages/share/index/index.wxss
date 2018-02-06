@@ -1,8 +1,14 @@
+page{
+    overflow-x: hidden;
+    background-color: #f3f3f3;
+}
+
 .share__video {
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #e7ba60;
+    background-color: #c63629;
 }
 
 .video_bg{
@@ -59,6 +65,7 @@
     color: #fff;
     line-height:90rpx;
     justify-content: space-around;
+    background-color: #c63629;
 }
 
 .share__link view{
@@ -70,9 +77,7 @@
 .record__list{
     display: flex;
     flex-direction: column;
-    height: 450rpx;
-    position: fixed;
-    bottom: 0;
+    min-height: 450rpx;
     width:100%;
     background-color: #f3f3f3;
 }
@@ -90,10 +95,6 @@
 
 .report{
     color: #5f486f;
-}
-
-.record__list_body{
-    height: 384rpx;
 }
 
 .record__list_item{

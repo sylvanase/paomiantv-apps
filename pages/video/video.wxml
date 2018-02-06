@@ -1,21 +1,35 @@
 <view class="container">
-    <view class="video__tips">
-        <!-- 弧形背景 -->
-        <view class="video__tips_bg"></view>
-        <view class="video__tips_link">
-            <image src="/assets/camera.png"></image>
-            <view class="text">拍摄视频</view>
-        </view>
-        <view class="tip1">拍摄自己的祝福小视频</view>
-        <view class="tip2">瓜分10,000.00现金红包</view>
-        <view class="tip3">数量有限先到先得</view>
+  <view class="video__tips">
+    <!-- 弧形背景 -->
+    <view class="video__tips_bg"></view>
+    <view class="video__tips_link">
+      <contact-button size="12" class='pos' style='top:60rpx;left:250rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:60rpx;left:300rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:60rpx;left:350rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:60rpx;left:400rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:60rpx;left:450rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:120rpx;left:250rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:120rpx;left:300rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:120rpx;left:350rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:120rpx;left:400rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:120rpx;left:450rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:180rpx;left:250rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:180rpx;left:300rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:180rpx;left:350rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:180rpx;left:400rpx;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:180rpx;left:450rpx;' type="default-light" session-from="weapp"></contact-button>
+      <image src="/assets/add_video.png"></image>
+      <view class="text">拍摄自己的小视频</view>
     </view>
-    <view class="video__list">
-        <block wx:for="{{ videoList }}" wx:key="{{item[0]}}">
-            <view class="video__list_item">
-                <image src="{{ item[2] }}"></image>
-                <button bindtap='useVideo' data-item="{{item}}">使用</button>
-            </view>
-        </block>
-    </view>
+    <view class="tip2">瓜分10,000.00现金红包</view>
+    <view class="tip3">数量有限先到先得</view>
+  </view>
+  <view class="video__list">
+    <block wx:for="{{ videoList }}" wx:key="{{item[0]}}">
+      <view class="video__list_item">
+        <image src="{{ item[2] }}" data-key='{{item[1]}}' data-img='{{item[2]}}' bindtap='playVideo'></image>
+        <button bindtap='useVideo' data-item="{{item}}">使用</button>
+      </view>
+    </block>
+  </view>
 </view>

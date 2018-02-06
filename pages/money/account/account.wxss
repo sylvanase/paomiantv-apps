@@ -29,6 +29,10 @@ page{
     float: right;
 }
 
+.grey{
+    color: #b1b1b1;
+}
+
 .blue{
     color: #4caced;
 }

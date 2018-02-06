@@ -1,4 +1,6 @@
 //index.js
+var util = require('../../utils/util.js');
+
 //获取应用实例
 const app = getApp()
 
@@ -10,7 +12,11 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isShowPop: false, // 是否显示pop
     packet: {},
-    balance: 0
+    balance: 0,
+    intervalId: null,
+    refresh: true,
+    createBtnDisabled: false,
+    ignoreBalance: false,
   },
   linkToVideo: function () { // 跳转到换视频
     wx.navigateTo({
@@ -33,6 +39,9 @@ Page({
     })
   },
   linkToMine: function () { // 跳转到我的页面
+    console.log("userInfo=" + JSON.stringify(this.data.userInfo));
+
+
     wx.navigateTo({
       url: '../mine/mine'
     })
@@ -44,7 +53,47 @@ Page({
     this.setData(obj)
     console.log(JSON.stringify(this.data))
   },
+
+  onShow: function () {
+    if (!this.data.refresh) {
+      this.setData({
+        refresh: true
+      })
+      return;
+    }
+    var reqCounter = 0;
+    var interval = setInterval(func => {
+      reqCounter++;
+      if (app.globalData.jsessionid) {
+        this.getRedPacketVideo();
+        this.getAccount();
+        clearInterval(interval);
+      } else {
+        if (reqCounter > 100) {
+          clearInterval(interval);
+          wx.navigateBack({
+            delta: 0
+          });
+        }
+      }
+    }, 100);
+    this.setData({
+      intervalId: interval
+    })
+  },
+
+  onHide: function () {
+    clearInterval(this.data.intervalId);
+  },
+
   onLoad: function () {
+
+    wx.getSystemInfo({
+      //获取系统信息成功，将系统窗口的宽高赋给页面的宽高
+      success: res => {
+        console.log("res=" + JSON.stringify(res));
+      }
+    })
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -71,8 +120,8 @@ Page({
         }
       })
     }
-    this.getRedPacketVideo();
-    this.getAccount();
+
+
   },
   getUserInfo: function (e) { // 获取用户信息
     app.globalData.userInfo = e.detail.userInfo
@@ -83,7 +132,7 @@ Page({
   },
   openRedPacket: function () {
     if (this.data.videoPacket) {
-      var videoPacket = this.data.videoPacket.data;
+      var videoPacket = this.data.videoPacket;
       var packet = {
         title: videoPacket.redpacket_title,
         amount: videoPacket.redpacket_amount,
@@ -101,16 +150,46 @@ Page({
     }
   },
 
+  onPopclose: function () {
+    this.setData({
+      isShowPop: false
+    })
+  },
+
+  playVideo: function () {
+    wx.navigateTo({
+      url: '/pages/video/preview/index?videoUrl=' + this.data.packet.videoUrl + "&imgUrl=" + this.data.packet.videoImgUrl,
+    })
+  },
+
   getRedPacketVideo: function () {
     var sessionid = app.globalData.jsessionid;
     wx.request({
       url: app.globalData.baseUrl + '/p1/redpacket_video?jsessionid=' + sessionid,
       success: result => {
         console.log("getRedPacketVideo=" + JSON.stringify(result.data));
-        if (result.data && result.data.status == 51000 && result.data.data && result.data.data.redpacket_type == 2) {
+        if (!result.data || !result.data.data) {
+          return;
+        }
+        if (result.data.status == 51000) {
           this.setData({
-            videoPacket: result.data,
+            videoPacket: result.data.data,
             isShowPop: true
+          })
+        } else if (result.data.status == 50003) {
+          var videoPacket = result.data.data;
+          var packet = {
+            title: videoPacket.redpacket_title,
+            amount: videoPacket.redpacket_amount,
+            number: videoPacket.redpacket_number,
+            type: videoPacket.redpacket_type,
+            videoId: videoPacket.video_id,
+            videoImgUrl: videoPacket.img_url,
+            videoUrl: videoPacket.video_url,
+          }
+
+          this.setData({
+            packet: packet,
           })
         }
       }
@@ -137,23 +216,53 @@ Page({
     //TODO
     console.log("title.length=" + this.data.packet.title.length);
     if (!this.data.packet.title || this.data.packet.title.length > 10 || this.data.packet.title.length < 2) {
-      showMsg('祝福语的长度在2-10个之间');
-      return;
-    }
-    if (!this.data.packet.number || this.data.packet.number < 1) {
-      showMsg('红包的赏金最小为1元');
-      return;
-    }
-    console.log(this.data.packet.amount / this.data.packet.number)
-    if (this.data.packet.amount < 50 && (this.data.packet.amount / this.data.packet.number) < 1) {
-      showMsg('请保证红包的赏金人均不低于1元');
+      app.showMsg('祝福语的长度在2-10个之间');
       return;
     }
 
-    if (!this.data.packet.videoId) {
-      showMsg('请选择个视频先');
+    if (!this.data.packet.amount || this.data.packet.amount < 1) {
+      app.showMsg('红包的赏金最小为1元');
       return;
     }
+    console.log(this.data.packet.amount / this.data.packet.number)
+    if (this.data.packet.type == 1) {
+      if (this.data.packet.amount < 50 && (this.data.packet.amount / this.data.packet.number) < 1) {
+        app.showMsg('请保证红包的赏金人均不低于1元');
+        return;
+      }
+    }
+    var amount = util.roundFun(this.data.packet.amount, 2);
+    var number = util.roundFun(this.data.packet.number, 0);
+    this.setData({
+      'packet.amount': amount,
+      'packet.number': number
+    });
+
+    if (!this.data.packet.videoId) {
+      app.showMsg('请选择个视频先');
+      return;
+    }
+
+
+    if (this.data.packet.type == 1) {
+      if (!this.data.ignoreBalance && amount > this.data.balance) {
+        app.showMsg('余额不足，请先充值');
+        //TODO
+        var fee = amount * 100 - this.data.balance * 100;
+        fee = util.roundFun(fee, 0);
+        console.log("余额不足=" + amount + "," + this.data.balance + "," + fee);
+        this.preorder(fee);
+        return;
+      }
+    }
+
+    if (!this.data.packet.type) {
+      this.data.packet.type = 1;
+    }
+
+    this.setData({
+      createBtnDisabled: true
+    });
 
     var sessionid = app.globalData.jsessionid;
     wx.request({
@@ -167,33 +276,117 @@ Page({
         "redpacket_title": this.data.packet.title,
         "video_id": this.data.packet.videoId,
         "redpacket_type": this.data.packet.type,
-        "redpacket_amount": this.data.packet.amount,
-        "redpacket_number": this.data.packet.number
+        "redpacket_amount": amount,
+        "redpacket_number": number
       },
       success: result => {
+
+        this.setData({
+          createBtnDisabled: false,
+          refresh: true
+        });
+
+        console.log(JSON.stringify(result.data));
         if (result.data && result.data.status == 0) {
-          showMsg("创建成功");
+          app.showMsg("创建成功");
+          wx.navigateTo({
+            url: '../index/share/share?packetId=' + result.data.data.redpacket_id + "&type=" + this.data.packet.type,
+          })
         } else {
-          showMsg(result.data.error);
+          app.showMsg(result.data.error);
+          //重新初始化红包创建
+          this.getRedPacketVideo();
         }
       }
     })
-
-
   },
-  //创建语音赞红包
-  createPraisePacket: function () {
+
+
+  preorder: function (amount) {
+
+    var sessionid = app.globalData.jsessionid;
+    wx.request({
+      url: app.globalData.baseUrl + '/api/packet/preorder?jsessionid=' + sessionid,
+      method: 'POST',
+      header: {
+        //'content-type': 'application/json' // 默认值
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        amount: amount,
+      },
+      success: result => {
+        console.log("payment=" + JSON.stringify(result.data));
+        if (result.data && result.data.status == 0) {
+          this.setData({
+            refresh: false,
+          })
+
+          var payment = result.data.data.payment;
+          wx.requestPayment({
+            timeStamp: payment.timeStamp,
+            nonceStr: payment.nonceStr,
+            package: payment.package,
+            signType: payment.signType,
+            paySign: payment.sign,
+            success: res => {
+              console.log("payment res=" + JSON.stringify(res));
+              if (res.errMsg == 'requestPayment:ok') {
+                //支付成功
+                this.payCheck(result.data.data.orderId);
+              } else {
+                //支付失败
+              }
+            },
+            fail: res => {
+              //系统错误
+              console.log("payment res=" + JSON.stringify(res));
+              app.showMsg(res.errMsg);
+            },
+          });
+
+
+        } else {
+          app.showMsg(result.data.error);
+        }
+      }
+    })
+  },
+
+  payCheck: function (orderId) {
+    var counter = 5;
+    var intervalId = setInterval(func => {
+      if (counter < 1) {
+        app.showMsg("正在到账中，请稍后查看")
+        clearInterval(intervalId);
+        return;
+      }
+      var sessionid = app.globalData.jsessionid;
+      console.log("sessionid=" + sessionid + ", orderId=" + orderId);
+      wx.request({
+        url: app.globalData.baseUrl + '/api/packet/order/status?jsessionid=' + sessionid + "&orderId=" + orderId,
+        success: res => {
+          if (!res.data) {
+            return;
+          }
+          if (res.data.data) {
+            this.setData({
+              ignoreBalance: true
+            })
+            this.createVideoPacket();
+            this.setData({
+              ignoreBalance: false
+            })
+            this.getAccount();
+            clearInterval(intervalId);
+          }
+        }
+      })
+      counter--;
+    }, 1000);
+
 
   },
 
 })
-
-
-function showMsg(str) {
-  wx.showToast({
-    title: str,
-    icon: 'none'
-  })
-}
-
 

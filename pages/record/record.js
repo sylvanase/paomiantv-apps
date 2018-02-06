@@ -10,7 +10,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     sendNum: 0, // 发出的红包数
     sendMoney: 0.00, // 发出的金额
-    sendList: [], 
+    sendList: [],
     receiveNum: 0, // 收到的红包数
     receiveMoney: 0.00, // 收到的金额
     receiveList: []
@@ -101,7 +101,18 @@ Page({
         });
       }
     })
-  }
+  },
+  packetDetail: function (e) {
+    console.log(JSON.stringify(e));
+    var packetId = e.currentTarget.dataset.key;
+    var type = e.currentTarget.dataset.type;
+    var url = '../share/index/index?packetId=' + packetId + "&type=" + type;
+    if (type == 3) {
+      url = '../share/praise/praise?packetId=' + packetId + "&type=" + type;
+    }
 
-
+    wx.navigateTo({
+      url: url
+    })
+  },
 })

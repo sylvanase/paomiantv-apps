@@ -11,33 +11,33 @@
         <view class="pocket__form_body">
             <view class="item">
                 <view class="label">赏金（元）</view>
-                <input type='number' placeholder='请输入金额' placeholder-class="placeholder"></input>
+                <input type='number' placeholder='请输入金额' placeholder-class="placeholder" value='{{packet.redpacket_amount}}' data-key="packet.redpacket_amount" bindinput="handleInput" ></input>
             </view>
             <view class="item">
                 <view class="label">数量（个）</view>
-                <input type='number' placeholder='请输入红包数量' placeholder-class="placeholder"></input>
+                <input type='number' placeholder='请输入红包数量' placeholder-class="placeholder" value='{{packet.redpacket_number}}' data-key="packet.redpacket_number" bindinput="handleInput"></input>
             </view>
             <view class="item picker" style="margin-bottom: 22rpx;">
                 <view class="label">赞美主题</view>
-                <picker bindchange="changeTheme" value="{{themeIndex}}" range="{{theme}}">
+                <picker bindchange="changeTitle" value="{{titleIndex}}" range="{{packet.redpacket_title}}">
                     <view>
-                        {{ themeIndex == '' ? '请选择主题' : theme[themeIndex] }}
+                        {{ titleIndex == '' ? '请选择主题' : packet.redpacket_title[titleIndex] }}
                         <view class="arrow"></view>
                     </view>
                 </picker>
             </view>
             <view class="item picker">
                 <view class="label">可领取门槛</view>
-                <picker bindchange="changeCondition" value="{{conditionIndex}}" range="{{condition}}">
+                <picker bindchange="changeLevel" value="{{levelIndex}}" range="{{levelItem}}">
                     <view>
-                        {{ conditionIndex == '' ? '请选择' : condition[conditionIndex] }}
+                        {{ levelIndex == '' ? '请选择' : levelItem[levelIndex] }}
                         <view class="arrow"></view>
                     </view>
                 </picker>
             </view>
             <!-- 提交红包按钮 -->
             <view class="item">
-                <button>生成红包</button>
+                <button bindtap='createPraisePacket'>生成红包</button>
             </view>
         </view>
         <!-- 用户余额显示处 -->

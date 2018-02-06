@@ -4,16 +4,12 @@ const app = getApp()
 
 Page({
   data: {
-    accountList: [
-      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
-      { type: 0, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
-      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
-      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
-      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
-      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
-      { type: 0, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' },
-      { type: 1, text: '孔二狗新年快乐', total: 89.00, time: '1-11 6:20' }
-    ]
+    // private String type;  收入、支出
+    // private String name; 显示的标题
+    // private BigDecimal money; 金额
+    // private Long createTime; 常见时间戳
+    // private Integer id; 自增id
+    accountList: []
   },
   //事件处理函数
   bindViewTap: function () {
@@ -48,6 +44,8 @@ Page({
         }
       })
     }
+    this.getBill()
+
   },
   getUserInfo: function (e) {
     console.log(e)

@@ -1,4 +1,7 @@
 /**index.wxss**/
+page{
+    overflow: hidden;
+}
 .pocket__form{
     margin:30rpx 45rpx 0;
     background-color: #fff;
@@ -88,12 +91,17 @@
     border: 3px solid #deceae;
 }
 
+.pocket__form_body .ref{
+    width: 23rpx;
+    height: 22rpx;
+}
+
 .pocket__form_body .change_video{
     text-align: center;
     color: #c63629;
     font-size: 24rpx;
     line-height: 36rpx;
-    margin: -16rpx auto -23rpx;
+    margin: -16rpx 0 -23rpx 12rpx;
 }
 
 .pocket__form_body button{

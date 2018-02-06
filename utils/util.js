@@ -14,6 +14,13 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
-module.exports = {
-  formatTime: formatTime
+function roundFun(value, n) {
+  console.log(value, n);
+  return Math.round(value * Math.pow(10, n)) / Math.pow(10, n);
 }
+
+module.exports = {
+  formatTime: formatTime,
+   roundFun: roundFun
+}
+

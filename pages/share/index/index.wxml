@@ -2,7 +2,7 @@
     <view class="share__video">
         <!-- 弧形背景 -->
         <view class="video_bg"></view>
-        <video src="{{src}}"  controls="false" autoplay="true"></video>
+        <video id="myVideo" src="{{packet.video_url}}"  controls="true" autoplay="true" loop="false"></video>
         <view class="tip">
             <!-- 包含三种状态 -->
             <!-- 1. 未抢到-->
@@ -10,34 +10,37 @@
                 手慢了没抢到<text>我也去发一个</text>
             </view>
             <!-- 2.领红包 -->
-            <view class="status2" wx:if="{{status == 2}}">立刻领取红包</view>
+            <view class="status2" wx:elif="{{status == 2}}" bindtap='grabbing'>立刻领取红包</view>
             <!-- 3.已抢金额 -->
-            <view class="status3" wx:if="{{status == 3}}">
-                <text>88888</text>元
+            <view class="status3" wx:elif="{{status == 3}}">
+                <text>{{amount}}</text>元
+            </view> <view class="status1" wx:elif="{{status == 4}}">
+                <text>红包已过期</text>
             </view>
+            <view wx:else>......</view>
         </view>
     </view>
     <view class="share__link">
-        <view>转发</view>
-        <view>余额提现</view>
-        <view>我也发一个</view>
+        <view bindtap='toShare'>转发</view>
+        <view bindtap='toMoney'>余额提现</view>
+        <view bindtap='toIndex'>我也发一个</view>
     </view>
     <view class="record__list">
         <view class="record__list_header">
-            <view>共8088元，领取1/5个</view>
-            <view class="report">举报</view>
+            <view>共{{packet.redpacket_amount}}元，领取{{packet.get_count}}/{{packet.redpacket_number}}个</view>
+            <!-- <view class="report">举报</view> -->
         </view>
-        <scroll-view class="record__list_body" scroll-y="true">
-            <block wx:for="{{ recordList }}">
+        <view class="record__list_body">
+            <block wx:for="{{ packet.get_detail }}" wx:key="">
                 <view class="record__list_item">
-                    <image src="{{ item.src }}"></image>
+                    <image src="{{ item[3] }}"></image>
                     <view class="info">
-                        <view>{{item.name}}</view>
-                        <view class="time">{{item.time}}</view>
+                        <view>{{item[2]}}</view>
+                        <view class="time">{{item[1]}}</view>
                     </view>
-                    <view class="num">{{item.num}}元</view>
+                    <view class="num">{{item[0]}}元</view>
                 </view>
             </block>
-        </scroll-view>
+        </view>
     </view>
 </view>

@@ -1,23 +1,27 @@
 <view class="container">
-    <view class="user__info">
-        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-        <text class="nickname">{{userInfo.nickName}}</text>
+  <view class="user__info">
+    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <text class="nickname">{{userInfo.nickName}}</text>
+  </view>
+  <view class="video__cover">
+    <image src="{{packet.img_url}}"></image>
+    <text>发了一个视频红包</text>
+  </view>
+  <!-- 祝福语 -->
+  <view class="blessings">{{packet.redpacket_title}}</view>
+  <!-- 二维码 -->
+  <view class="qs">
+    <image src="{{qrcodeUrl}}"></image>
+  </view>
+  <view class="handle__btn">
+    <view class="grey">
+      <button class="grey" open-type="share"> 转发到群聊</button>
     </view>
-    <view class="video__cover">
-        <image></image>
-        <text>发了一个视频红包</text>
+    <view class="green">
+      <button class="green" bindtap='saveScreen' disabled='{{circleBtnDisabled}}'>分享到朋友圈</button>
     </view>
-    <!-- 祝福语 -->
-    <view class="blessings">恭喜发财 万事如意</view>
-    <!-- 二维码 -->
-    <view class="qs">
-        <image src=""></image>
-    </view>
-    <view class="handle__btn">
-        <view class="grey">转发到群聊</view>
-        <view class="green">分享到朋友圈</view>
-    </view>
-    <view class="bottom">
-        <image src="/assets/share_bottom.png"></image>
-    </view>
+  </view>
+  <view class="bottom">
+    <image src="/assets/share_bottom.png"></image>
+  </view>
 </view>

@@ -1,3 +1,6 @@
+page{
+    overflow: hidden;
+}
 .pocket__form{
     margin:68rpx 45rpx 0;
     background-color: #fff;

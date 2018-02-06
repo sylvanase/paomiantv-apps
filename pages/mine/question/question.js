@@ -3,35 +3,40 @@
 const app = getApp()
 
 Page({
-    data: {
-        openItem: -1, // 展开的问题索引
-        questionList: [
-            {title: '泡面的客服电话是？', des: '66666'},
-            {title: '泡面的客服电话是？', des: '下载泡面短视频。分享你拍的视频即可得到红包机会，啦啦啦啦啦', open: false},
-            {title: '泡面的客服电话是？', des: '66666'},
-            {title: '泡面的客服电话是？', des: '66666'},
-            {title: '泡面的客服电话是？', des: '66666'},
-            {title: '泡面的客服电话是？', des: '66666'}
-        ]
-    },
-    openItem: function (e) {
-        var _self = this;
-        var currentItemId = e.currentTarget.dataset.id;
-        if(_self.data.openItem !== currentItemId){ // 如果当前点击打开的item与以展开的不相等，更换openItem值
-            _self.setData({
-                openItem: currentItemId,
-            })
-            console.log(_self.data.openItem)
-        } else {
-            _self.setData({
-                openItem: -1,
-            })
-        }
-        /*_self.setData({
-            questionList: currentItem,
-        })*/
-    },
-    onLoad: function () {
+  data: {
+    openItem: -1, // 展开的问题索引
+    questionList: [
+      { title: 'Q1: 小程序活动介绍：', des: '（1）用户下载“泡面短视频”app. \n（2）登陆且绑定微信号.\n（3）活动期内（2月13日-2月22日）在“泡面短视频”录制发布第一条视频后赢取免费红包.\n（4）分享至微信群即可与好友一起抢泡面短视频准备的平台总额10万的红包' },
+      { title: 'Q2：如何联系客服？', des: 'A：点击【我的】-【客服】进入客服系统；客服在线时间10点~19点', open: false },
+      { title: 'Q3：提现多久到账？', des: 'A：申请提现后会在1~5个工作日转到您的微信红包' },
+      { title: 'Q4：提现会收取服务费吗？', des: 'A：提现收取2%的服务费' },
+      { title: 'Q5：如何提现？', des: 'A：点击【我的】-【我的余额】进行提现，提现最低2元起提' },
+      { title: 'Q6：未领取红包如何处理？', des: 'A：未领取红包将于48小时候退至您的小程序余额中' },
+      { title: 'Q7：好友可以转发我的红包吗？', des: 'A：可以，点击红包领取页面中的转发可转发给其他用户' },
+      { title: 'Q8：我的微信怎么无法绑定？', des: 'A：联系客服，提供微信号和手机号，技术人员于三个工作日内会为您解决该问题。' },
+      {
+        title: 'Q9：泡面短视频介绍', des: 'A：泡面短视频-短视频互动交友社区搞笑鬼畜有脑洞，影视片段加不停！Ps：下载APP前，请先丢弃“偶像包袱”。像贴纸一样简单的在视频中加入各种影视小片段。海量影视片段、鬼畜素材、表情包……只要你来拍，秒变段子手~' },
 
+    ]
+  },
+  openItem: function (e) {
+    var _self = this;
+    var currentItemId = e.currentTarget.dataset.id;
+    if (_self.data.openItem !== currentItemId) { // 如果当前点击打开的item与以展开的不相等，更换openItem值
+      _self.setData({
+        openItem: currentItemId,
+      })
+      console.log(_self.data.openItem)
+    } else {
+      _self.setData({
+        openItem: -1,
+      })
     }
+    /*_self.setData({
+        questionList: currentItem,
+    })*/
+  },
+  onLoad: function () {
+
+  }
 })

@@ -1,25 +1,29 @@
 {
-    "pages": [
-        "pages/index/index",
-        "pages/index/share/share",
-        "pages/praise/praise",
-        "pages/praise/share/share",
-        "pages/video/video",
-        "pages/record/record",
-        "pages/money/money",
-        "pages/money/account/account",
-        "pages/mine/mine",
-        "pages/mine/question/question",
-        "pages/share/index/index",
-        "pages/share/praise/praise",
-        "pages/logs/logs"
-    ],
-    "window": {
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#daab5f",
-        "navigationBarTitleText": "泡面小红包",
-        "navigationBarTextStyle": "white",
-        "backgroundColor": "#eeeeee"
-    },
-    "debug": true
+  "pages": [
+    "pages/index/index",
+    "pages/index/share/share",
+    "pages/index/circlepic/index",
+    "pages/praise/praise",
+    "pages/praise/share/share",
+    "pages/praise/circlepic/index",
+    "pages/video/video",
+    "pages/video/preview/index",
+    "pages/record/record",
+    "pages/money/money",
+    "pages/money/account/account",
+    "pages/mine/mine",
+    "pages/mine/question/question",
+    "pages/share/index/index",
+    "pages/web/index",
+    "pages/share/praise/praise",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#daab5f",
+    "navigationBarTitleText": "泡面小红包",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#eeeeee"
+  },
+  "debug": true
 }

@@ -1,47 +1,47 @@
 <view class="container">
-    <view class="share__pocket">
-        <!-- 弧形背景 -->
-        <view class="share__pocket_bg"></view>
-        <view class="share__pocket_info">
-            <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-            <text class="nickname">{{userInfo.nickName}}</text>
-            <text class="theme">赞美的主题</text>
-        </view>
-        <view class="tip">
-            <!-- 包含三种状态 -->
-            <!-- 1. 未抢到-->
-            <view class="status1" wx:if="{{status == 1}}">
-                手慢了没抢到<text>我也去发一个</text>
-            </view>
-            <!-- 2.领红包 -->
-            <view class="status2" wx:if="{{status == 2}}">按住说出你的赞美</view>
-            <!-- 3.已抢金额 -->
-            <view class="status3" wx:if="{{status == 3}}">
-                <text>88888</text>元
-            </view>
-        </view>
+  <view class="share__pocket">
+    <!-- 弧形背景 -->
+    <view class="share__pocket_bg"></view>
+    <view class="share__pocket_info">
+      <image class="avatar" src="{{packet.avatar}}"></image>
+      <text class="nickname">{{packet.nickname}}</text>
+      <text class="theme">{{packet.redpacket_title}}</text>
     </view>
-    <view class="share__link">
-        <view>转发</view>
-        <view>余额提现</view>
-        <view>我也发一个</view>
+    <view class="tip">
+      <!-- 包含三种状态 -->
+      <!-- 1. 未抢到-->
+      <view class="status1" wx:if="{{status == 1}}">
+        手慢了没抢到
+      </view>
+      <!-- 2.领红包 -->
+      <view class="status2" wx:if="{{status == 2}}" bindtouchstart='startSay' bindtouchend='stopSay'>按住说出你的赞美</view>
+      <!-- 3.已抢金额 -->
+      <view class="status3" wx:if="{{status == 3}}">
+        <text>{{amount}}</text>元
+      </view>
     </view>
-    <view class="record__list">
-        <view class="record__list_header">
-            <view>共8088元，领取1/5个</view>
-            <view class="report">举报</view>
+  </view>
+  <view class="share__link">
+    <view bindtap='toShare'>转发</view>
+    <view bindtap='toMoney'>余额提现</view>
+    <view bindtap='toIndex'>我也发一个</view>
+  </view>
+  <view class="record__list">
+    <view class="record__list_header">
+      <view>共{{packet.redpacket_amount}}元，领取{{packet.get_count}}/{{packet.redpacket_number}}个</view>
+      <!-- <view class="report">举报</view> -->
+    </view>
+    <view class="record__list_body">
+      <block wx:for="{{ packet.get_detail }}" wx:key="">
+        <view class="record__list_item">
+          <image src="{{ item[3] }}"></image>
+          <view class="info">
+            <view>{{item[2]}}</view>
+            <view class="time">{{item[1]}}</view>
+          </view>
+          <view class="num">{{item[0]}}元</view>
         </view>
-        <scroll-view class="record__list_body" scroll-y="true">
-            <block wx:for="{{ recordList }}">
-                <view class="record__list_item">
-                    <image src="{{ item.src }}"></image>
-                    <view class="info">
-                        <view>{{item.name}}</view>
-                        <view class="time">{{item.time}}</view>
-                    </view>
-                    <view class="num">{{item.num}}元</view>
-                </view>
-            </block>
-        </scroll-view>
+      </block>
     </view>
+  </view>
 </view>
