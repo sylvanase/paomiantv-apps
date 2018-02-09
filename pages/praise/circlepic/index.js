@@ -15,11 +15,16 @@ Page({
   onLoad: function (option) {
     var dev = wx.getSystemInfoSync();
     var pixelRatio = 750 / dev.windowWidth;
+
+    console.log(JSON.stringify(option));
+
     this.setData({
       width: 750 / pixelRatio,
       height: 981 / pixelRatio,
       pixelRatio: pixelRatio,
       qrUrl: option.qrUrl,
+      avatarUrl: option.avatarUrl,
+      nickName: option.nickName,
       packetTitle: option.packetTitle
     })
     this.saveScreen()
@@ -32,19 +37,7 @@ Page({
       mask: true
     })
 
-    console.log("circle=" + this.data.width + "," + this.data.height);
-
-    var avatarUrl = app.globalData.userInfo.avatarUrl;
-    var nickName = app.globalData.userInfo.nickName;
-
-    this.setData({
-      avatarUrl: avatarUrl,
-      nickName: nickName
-    })
-
-    console.log(JSON.stringify(this.data));
-
-    this.cacheImage('avatarImg', avatarUrl);
+    this.cacheImage('avatarImg', this.data.avatarUrl);
     this.cacheImage('qrImg', this.data.qrUrl);
 
     var reqCounter = 0;
@@ -67,7 +60,6 @@ Page({
       src: url,
       success: res => {
         console.log(url + "," + JSON.stringify(res));
-        app.showMsg(key+" 下载完成");
         let obj = {};
         obj[key] = res;
         this.setData(obj);
@@ -76,23 +68,21 @@ Page({
         }
         console.log(this.data);
       },
-      fail: res=>{
-        app.showMsg(key + " 下载失败");
+      fail: res => {
       }
     })
   },
 
 
   drawCanvas: function () {
-    app.showMsg("开始画图");
     console.log("before drawCanvas");
     const ctx = wx.createCanvasContext('myCanvas');
     var H1 = 36 * 2 / this.data.pixelRatio
     var avatarW = 66 * 2 / this.data.pixelRatio
     ctx.drawImage(this.data.avatarImg.path, (this.data.width - avatarW) / 2, H1, avatarW, avatarW);
 
-    var H2 = 248 * 2 / this.data.pixelRatio
-    var qrW = 144 * 2 / this.data.pixelRatio
+    var H2 = 249 * 2 / this.data.pixelRatio
+    var qrW = 143 * 2 / this.data.pixelRatio
     ctx.drawImage(this.data.qrImg.path, (this.data.width - qrW) / 2, H2, qrW, qrW);
     ctx.drawImage('/assets/praise_share.png', 0, 0, this.data.width, this.data.height);
 
@@ -108,21 +98,25 @@ Page({
     var H4 = (195.5 + 9) * 2 / this.data.pixelRatio
     ctx.fillText(this.data.packetTitle, this.data.width / 2, H4)
 
-    app.showMsg("开始生成图片。。。。。");
     ctx.draw(true, func => {
       wx.hideLoading()
       wx.canvasToTempFilePath({
         canvasId: 'myCanvas',
         width: this.data.width,
         height: this.data.height,
+        quality: 1,
         success: res => {
           wx.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
+            success: function () {
+              wx.showModal({
+                content: "图片已经保存到相册了\r\n还不赶紧去发个朋友圈→",
+                showCancel:false,
+              })
+            }
           })
         }
       })
     });
   },
-
-
 })

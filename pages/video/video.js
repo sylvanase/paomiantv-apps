@@ -42,9 +42,9 @@ Page({
       var packet = prePage.data.packet;
       console.log("videoItem info=" + JSON.stringify(videoItem));
       console.log("packet info=" + JSON.stringify(packet));
-      packet.videoId = videoItem[0];
-      packet.videoImgUrl = videoItem[2];
-      packet.videoUrl = videoItem[1];
+      packet.video_id = videoItem[0];
+      packet.img_url = videoItem[2];
+      packet.video_url = videoItem[1];
       prePage.setData({
         packet: packet,
         refresh: false

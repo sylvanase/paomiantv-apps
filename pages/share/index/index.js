@@ -23,12 +23,17 @@ Page({
       packetType: type,
     });
 
+    wx.showLoading({
+      title: '初始化中...',
+      mask: true
+    })
     var reqCounter = 0;
     var interval = setInterval(func => {
       reqCounter++;
       if (app.globalData.jsessionid) {
         this.getPacketDetail(packetId, type);
         this.isGrab(packetId);
+        wx.hideLoading()
         clearInterval(interval);
       } else {
         if (reqCounter > 100) {
@@ -38,21 +43,21 @@ Page({
           });
         }
       }
-    }, 100);
+    }, 300);
     this.setData({
       intervalId: interval
     })
   },
 
-  onReady: function(){
+  onReady: function () {
     const videoctx = wx.createVideoContext('myVideo', this);
     this.setData({
       videoctx: videoctx
     })
   },
 
-  onShow:function(){
-    if (this.data.videoctx){
+  onShow: function () {
+    if (this.data.videoctx) {
       this.data.videoctx.play();
     }
   },
@@ -102,22 +107,27 @@ Page({
         if (!result.data) {
           return;
         }
-        if (result.data.status == 80005) {
+        if (result.data.status == 0) {
           this.setData({
-            status: 3,
-            amount: result.data.data.redpacket_amount
+            status: 2
           })
-        } else if (result.data.status == 80002) {
+        }
+        if (result.data.status == 80002) {
           this.setData({
             status: 1
+          })
+        } else if (result.data.status == 80003) {
+          this.setData({
+            status: 2
           })
         } else if (result.data.status == 80004) {
           this.setData({
             status: 4
           })
-        } else if (result.data.status == 0) {
+        } else if (result.data.status == 80005) {
           this.setData({
-            status: 2
+            status: 3,
+            amount: result.data.data.redpacket_amount
           })
         }
       }
@@ -129,10 +139,9 @@ Page({
     var packetId = this.data.packetId;
     var packetType = this.data.packetType;
     var path = '/p1/redpacket_video/grabbing';
-    if (packetType == 2) {
-      path = '/p1/redpacket_praise/grabbing';
-    }
-
+    // if (packetType == 2) {
+    //   path = '/p1/redpacket_praise/grabbing';
+    // }
     wx.request({
       url: app.globalData.baseUrl + path + '?jsessionid=' + sessionid,
       method: 'POST',
@@ -148,7 +157,9 @@ Page({
         if (!result.data) {
           return;
         }
+
         if (result.data.status == 0) {
+          app.showMsg("恭喜领取成功");
           this.setData({
             status: 3,
             amount: result.data.data.money
@@ -170,6 +181,7 @@ Page({
             })
           }
         }
+        this.getPacketDetail(packetId, packetType);
       }
     });
 

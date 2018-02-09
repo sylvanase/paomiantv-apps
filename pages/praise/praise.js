@@ -9,9 +9,9 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     balance: 0.00, // 余额
-    titleIndex: '',
-    levelIndex: '',
-    levelItem: ['普通','困难'],
+    titleIndex: -1,
+    levelIndex: -1,
+    levelItem: ['普通', '困难'],
     ignoreBalance: false,
   },
   changeTitle: function (e) {
@@ -82,7 +82,14 @@ Page({
         if (!result.data || !result.data.data) {
           return;
         }
-        if (result.data.status == 50004) { 
+        if (result.data.status == 50004) {
+          if (result.data.data.redpacket_amount == 0) {
+            result.data.data.redpacket_amount = null
+          }
+          if (result.data.data.redpacket_number == 0) {
+            result.data.data.redpacket_number = null
+          }
+
           this.setData({
             packet: result.data.data,
           })
@@ -139,6 +146,11 @@ Page({
       return;
     }
 
+    if (this.data.packet.redpacket_amount>2000){
+      app.showMsg('您的红包太大了，消化不了');
+      return;
+    }
+
     if (!this.data.ignoreBalance && this.data.packet.redpacket_amount > this.data.balance) {
       app.showMsg('余额不足，请先充值');
       //TODO
@@ -170,7 +182,7 @@ Page({
       success: result => {
         this.setData({
           createBtnDisabled: false,
-          refresh:true
+          refresh: true
         });
         console.log(JSON.stringify(result.data));
         if (result.data && result.data.status == 0) {
@@ -226,7 +238,9 @@ Page({
             fail: res => {
               //系统错误
               console.log("payment res=" + JSON.stringify(res));
-              app.showMsg(res.errMsg);
+              if (res.errMsg == 'requestPayment:fail cancel') {
+                app.showMsg("您取消了支付");
+              }
             },
           });
 

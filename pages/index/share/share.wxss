@@ -34,11 +34,18 @@ page{
   flex-direction: column;
 }
 
-.video__cover image {
+.video__cover view{
   width: 185rpx;
   height: 224rpx;
   border: 3px solid #deceb0;
   margin-bottom: 32rpx;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.video__cover image {
+  width: 100%;
 }
 
 .video__cover text {
@@ -75,7 +82,7 @@ page{
   line-height: 88rpx;
   text-align: center;
   border-radius: 20px;
-  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);
+  /*box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);*/
 }
 
 .handle__btn button {

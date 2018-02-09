@@ -45,6 +45,8 @@ page{
     width: 180rpx;
     height: 180rpx;
     margin-bottom: 60rpx;
+    border-radius: 50%;
+    border: 3px solid #e7ba60;
 }
 
 .handle__btn{

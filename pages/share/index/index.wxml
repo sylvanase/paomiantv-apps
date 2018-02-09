@@ -7,15 +7,16 @@
             <!-- 包含三种状态 -->
             <!-- 1. 未抢到-->
             <view class="status1" wx:if="{{status == 1}}">
-                手慢了没抢到<text>我也去发一个</text>
+                手慢了没抢到<text bindtap='toIndex'>我也去发一个</text>
             </view>
             <!-- 2.领红包 -->
             <view class="status2" wx:elif="{{status == 2}}" bindtap='grabbing'>立刻领取红包</view>
             <!-- 3.已抢金额 -->
             <view class="status3" wx:elif="{{status == 3}}">
                 <text>{{amount}}</text>元
-            </view> <view class="status1" wx:elif="{{status == 4}}">
-                <text>红包已过期</text>
+            </view>
+            <view class="status1" wx:elif="{{status == 4}}">
+                红包已过期
             </view>
             <view wx:else>......</view>
         </view>

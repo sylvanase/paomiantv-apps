@@ -1,11 +1,11 @@
 <view class="container">
   <view class="user__info">
-    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-    <text class="nickname">{{userInfo.nickName}}</text>
+    <image class="avatar" src="{{packet.avatar}}"></image>
+    <text class="nickname">{{packet.nickname}}</text>
     <text class="tips">发了一个红包</text>
   </view>
   <!-- 祝福语 -->
-  <view class="blessings">{{packet.packet_title}}</view>
+  <view class="blessings">{{packet.redpacket_title}}</view>
   <!-- 二维码 -->
   <view class="qs">
     <image src="{{qrcodeUrl}}"></image>

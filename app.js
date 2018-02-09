@@ -26,7 +26,7 @@ App({
             wx.showModal({
               title: '警告',
               content: '您点击了拒绝授权，小程序将无法正常使用。请10分钟后再次点击授权，或者删除小程序重新进入。',
-              success(){
+              success:function() {
                 wx.navigateBack({
                   delta: 0
                 });
@@ -102,17 +102,22 @@ App({
     var sessionid = this.globalData.jsessionid;
     wx.request({
       url: this.globalData.baseUrl + '/api/auth/userinfo?jsessionid=' + sessionid,
-      method: 'POST',
+      method: 'POST', 
       data: userinfo,
       success: result => {
         console.log(result.data.status + "," + result.data.error);
       }
     })
   },
-  showMsg: function (str) {
+  showMsg: function (str, time) {
+    var duration = 1500
+    if (time) {
+      duration = time
+    }
     wx.showToast({
       title: str,
-      icon: 'none'
+      icon: 'none',
+      duration: duration
     })
   }
 })

@@ -10,8 +10,8 @@ Page({
     width: 0,
     height: 0,
     qrcodeUrl: null,
-    packet:{},
-    circleBtnDisabled:true
+    packet: {},
+    circleBtnDisabled: true
   },
   onLoad: function (option) {
     if (app.globalData.userInfo) {
@@ -65,7 +65,7 @@ Page({
     })
 
     this.getPacketDetail(packetId, packetType);
-    this.getQR(packetId); 
+    this.getQR(packetId);
   },
 
   onShareAppMessage: function (res) {
@@ -141,9 +141,9 @@ Page({
         if (result.data && result.data.status == 0) {
           this.setData({
             qrcodeUrl: result.data.data.qrcode_url,
-            circleBtnDisabled:false
+            circleBtnDisabled: false
           })
-          
+
         }
       }
     })
@@ -151,7 +151,7 @@ Page({
 
   saveScreen: function () {
     wx.navigateTo({
-      url: '../circlepic/index?qrUrl=' + this.data.qrcodeUrl + "&packetTitle=" + this.data.packet.redpacket_title
+      url: '../circlepic/index?qrUrl=' + this.data.qrcodeUrl + "&packetTitle=" + this.data.packet.redpacket_title + "&avatarUrl=" + this.data.packet.avatar + "&nickName=" + this.data.packet.nickname
     })
   },
 })

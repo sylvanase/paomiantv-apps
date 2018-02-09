@@ -5,6 +5,7 @@ page{
 }
 .container{
     padding: 26rpx 22rpx;
+    overflow-y: auto;
 }
 
 

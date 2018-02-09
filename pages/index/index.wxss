@@ -35,10 +35,10 @@ page{
 
 .pocket__form_header_pop{
     position: absolute;
-    top: 8rpx;
-    right: 9rpx;
-    width: 140rpx;
-    height:131rpx;
+    top: -13rpx;
+    right: -22rpx;
+    width: 161rpx;
+    height:210rpx;
 }
 
 .pocket__form_body{
@@ -70,7 +70,7 @@ page{
 }
 
 .pocket__form_body .short{
-    width: 283rpx;
+    width: 300rpx;
 }
 
 .pocket__form_body .long{
@@ -89,6 +89,13 @@ page{
     height: 215rpx;
     margin: 0 auto;
     border: 3px solid #deceae;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.video_cover image{
+    width: 100%;
 }
 
 .pocket__form_body .ref{
@@ -268,4 +275,8 @@ page{
     width:266rpx;
     height: 80rpx;
     margin-top: 94rpx;
+}
+.pos {
+  position: absolute;
+  opacity: 0;
 }

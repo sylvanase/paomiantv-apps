@@ -7,30 +7,42 @@
         <text class="nickname">{{userInfo.nickName}}</text>
       </view>
       <!-- 点击该图标跳转客服 -->
+      <contact-button size="12" class='pos' style='top:10px;right:10px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:10px;right:30px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:10px;right:50px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:30px;right:10px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:30px;right:30px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:30px;right:50px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:50px;right:10px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:50px;right:30px;' type="default-light" session-from="weapp"></contact-button>
+      <contact-button size="12" class='pos' style='top:50px;right:50px;' type="default-light" session-from="weapp"></contact-button>
       <image class="pocket__form_header_pop" background-size="cover" src="/assets/pop_pocket.png"></image>
     </view>
     <!-- 红包表单 -->
     <view class="pocket__form_body">
       <view class="item">
         <view class="label">发祝福语</view>
-        <input type='text' placeholder='恭喜发财新年快乐' maxlength="10" placeholder-class="placeholder" class='short' value='{{packet.title}}' confirm-type="next" data-key="packet.title" bindinput="handleInput"></input>
+        <input type='text' placeholder='恭喜发财新年快乐' maxlength="10" placeholder-class="placeholder" class='short' value='{{packet.redpacket_title}}' confirm-type="next" data-key="packet.redpacket_title" bindinput="handleInput"></input>
       </view>
       <view class="item">
         <view class="label">赏金（元）</view>
-        <input type='digit' placeholder='请输入金额' placeholder-class="placeholder" class='long' value='{{packet.amount}}' disabled='{{packet.type == 2 ? true : false}}' confirm-type="next" data-key="packet.amount" bindinput="handleInput"></input>
+        <input type='digit' placeholder='请输入金额' placeholder-class="placeholder" class='long' value='{{packet.redpacket_amount}}' disabled='{{packet.redpacket_type == 2 ? true : false}}' confirm-type="next" data-key="packet.redpacket_amount" bindinput="handleInput"></input>
       </view>
       <view class="item">
         <view class="label">数量（个）</view>
-        <input type='number' placeholder='请输入红包数量' placeholder-class="placeholder" class='long' value='{{packet.number}}' disabled='{{packet.type == 2 ? true : false}}' confirm-type="next" data-key="packet.number" bindinput="handleInput"></input>
+        <input type='number' placeholder='请输入红包数量' placeholder-class="placeholder" class='long' value='{{packet.redpacket_number}}' disabled='{{packet.redpacket_type == 2 ? true : false}}' confirm-type="next" data-key="packet.redpacket_number" bindinput="handleInput"></input>
       </view>
-      <view class="item" wx:if="{{packet.videoImgUrl==null}}" bindtap="linkToVideo">
+      <view class="item" wx:if="{{packet.img_url==null||packet.img_url==''}}" bindtap="linkToVideo">
         <image class="add_video" src="/assets/add_video.png"></image>
       </view>
       <view class="item" wx:else bindtap="playVideo">
-        <image class="video_cover" src="{{packet.videoImgUrl}}"></image>
+        <view class="video_cover">
+          <image mode="widthFix" src="{{packet.img_url}}"></image>
+        </view>
       </view>
       <view class="item" style="justify-content: center;" bindtap="linkToVideo">
-        <image class="ref" src="/assets/ref.png"></image><text class="change_video">换个视频</text>
+        <image class="ref" src="/assets/ref.png"></image>
+        <text class="change_video">换个视频</text>
       </view>
       <!-- 提交红包按钮 -->
       <view class="item">

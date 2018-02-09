@@ -1,11 +1,19 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
 const recorderManager = wx.getRecorderManager()
+
+var that;
+var start = new Date().getTime();
 
 recorderManager.onStart(() => {
   console.log('recorder start')
+  app.showMsg("正在录音中");
+  start = new Date().getTime();
+  that.setData({
+    btnActived: true
+  })
+
 })
 recorderManager.onResume(() => {
   console.log('recorder resume')
@@ -14,7 +22,18 @@ recorderManager.onPause(() => {
   console.log('recorder pause')
 })
 recorderManager.onStop((res) => {
-  console.log('recorder stop', res)
+  recorderManager.stop();
+  var end = new Date().getTime();
+  that.setData({
+    btnActived: false
+  })
+
+
+  if (end - start < 2000) {
+    app.showMsg("录音太短了");
+    return;
+  }
+  app.showMsg("正在上传语音");
   var sessionid = app.globalData.jsessionid;
   var pages = getCurrentPages();
   var curPage = pages[pages.length - 1];
@@ -23,7 +42,7 @@ recorderManager.onStop((res) => {
     method: 'POST',
     filePath: res.tempFilePath,
     name: 'file',
-    header:{
+    header: {
       Accept: 'application/json'
     },
     formData: {
@@ -34,13 +53,15 @@ recorderManager.onStop((res) => {
       var res = JSON.parse(result.data);
 
       if (res.status == 0) {
-        this.setData({
+        app.showMsg("恭喜领取成功");
+        that.setData({
           status: 3,
           amount: res.data.money
         });
       } else {
         app.showMsg(res.error);
       }
+      curPage.getPacketDetail(curPage.data.packetId, 3);
     }
   })
 })
@@ -69,8 +90,10 @@ Page({
     status: 0,
     packetId: null,
     packetType: null,
+    btnActived: false
   },
   onLoad: function (option) {
+    that = this;
     var packetId = option.packetId;
     var type = option.type;
     if (option.scene) {
@@ -83,7 +106,7 @@ Page({
       packetType: type,
     });
 
-  
+
 
     if (app.globalData.userInfo) {
       this.setData({
@@ -112,13 +135,17 @@ Page({
       })
     }
 
-
+    wx.showLoading({
+      title: '初始化中...',
+      mask: true
+    })
     var reqCounter = 0;
     var interval = setInterval(func => {
       reqCounter++;
       if (app.globalData.jsessionid) {
         this.getPacketDetail(packetId, type);
         this.isGrab(packetId);
+        wx.hideLoading()
         clearInterval(interval);
       } else {
         if (reqCounter > 100) {
@@ -128,7 +155,7 @@ Page({
           });
         }
       }
-    }, 100);
+    }, 300);
     this.setData({
       intervalId: interval
     })
@@ -187,23 +214,31 @@ Page({
         if (!result.data) {
           return;
         }
-        if (result.data.status == 80005) {
-          this.setData({
-            status: 3,
-            amount: result.data.data.redpacket_amount
-          })
-        } else if (result.data.status == 80002) {
-          this.setData({
-            status: 1
-          })
-        } else if (result.data.status == 80004) {
-          this.setData({
-            status: 4
-          })
-        } else if (result.data.status == 0) {
+
+        if (result.data.status == 0) {
           this.setData({
             status: 2
           })
+        } else {
+          if (result.data.status == 80002) {
+            this.setData({
+              status: 1
+            })
+          } else if (result.data.status == 80003) {
+            this.setData({
+              status: 2
+            })
+          } else if (result.data.status == 80004) {
+            this.setData({
+              status: 4
+            })
+          } else if (result.data.status == 80005) {
+
+            this.setData({
+              status: 3,
+              amount: result.data.data.redpacket_amount
+            })
+          }
         }
       }
     })
@@ -220,7 +255,7 @@ Page({
   },
   toIndex: function () {
     wx.navigateTo({
-      url: '/pages/praise/praise',
+      url: '/pages/index/index',
     })
   },
   startSay: function () {

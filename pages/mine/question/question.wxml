@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-    <scroll-view class="question__list" scroll-y="true">
+    <view class="question__list">
         <block wx:for="{{ questionList }}">
             <view class="question__list_item {{ index == openItem ? 'open':'' }}" data-id="{{ index }}" bindtap='openItem'>
                 <view class="title">
@@ -10,5 +10,5 @@
                 <text class="des">{{ item.des }}</text>
             </view>
         </block>
-    </scroll-view>
+    </view>
 </view>

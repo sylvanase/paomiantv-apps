@@ -14,7 +14,7 @@ Page({
     shareImgInfo: {},
     packetId: null,
     packetType: null,
-    circleBtnDisabled:true
+    circleBtnDisabled: true
   },
 
   onLoad: function (option) {
@@ -114,7 +114,7 @@ Page({
         if (result.data && result.data.status == 0) {
           this.setData({
             qrcodeUrl: result.data.data.qrcode_url,
-            circleBtnDisabled:false
+            circleBtnDisabled: false
           })
         }
       }
@@ -144,7 +144,7 @@ Page({
   },
   saveScreen: function () {
     wx.navigateTo({
-      url: '../circlepic/index?videoImgUrl=' + this.data.packet.img_url + "&qrUrl=" + this.data.qrcodeUrl + "&packetTitle=" + this.data.packet.redpacket_title
+      url: '../circlepic/index?videoImgUrl=' + this.data.packet.img_url + "&qrUrl=" + this.data.qrcodeUrl + "&packetTitle=" + this.data.packet.redpacket_title + "&avatarUrl=" + this.data.packet.avatar + "&nickName=" + this.data.packet.nickname
     })
   },
 

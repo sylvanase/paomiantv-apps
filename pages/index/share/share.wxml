@@ -1,10 +1,12 @@
 <view class="container">
   <view class="user__info">
-    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-    <text class="nickname">{{userInfo.nickName}}</text>
+    <image class="avatar" src="{{packet.avatar}}"></image>
+    <text class="nickname">{{packet.nickname}}</text>
   </view>
   <view class="video__cover">
-    <image src="{{packet.img_url}}"></image>
+    <view>
+      <image mode="widthFix" src="{{packet.img_url}}"></image>
+    </view>
     <text>发了一个视频红包</text>
   </view>
   <!-- 祝福语 -->

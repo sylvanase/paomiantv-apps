@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.1",
 	"appid": "wxde084af6ecd77ad7",
-	"projectname": "redpacket",
+	"projectname": "wx-paomian-redpacket",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

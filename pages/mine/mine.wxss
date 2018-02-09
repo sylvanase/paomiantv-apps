@@ -54,7 +54,7 @@ page {
 .mine__info_bar_item .money {
   font-size: 30rpx;
   color: #e7ba60;
-  margin-bottom: 16rpx;
+  margin-bottom: 24rpx;
 }
 
 .mine__info_bar_item .service {
@@ -102,7 +102,7 @@ page {
   width: 20px;
   height: 20px;
   display: inline-block;
-  margin-top: 5px;
+  /*margin-top: 5px;*/
 }
 
 .df_1 {

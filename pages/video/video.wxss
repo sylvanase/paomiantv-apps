@@ -74,11 +74,18 @@ page{
     margin-bottom: 42rpx;
 }
 
-.video__list_item image{
+.video__list_item .cover{
     border: 3px solid #e7ba60;
     width: 174rpx;
     height:244rpx;
-    margin-bottom: 20rpx;
+    margin: 0 auto 20rpx;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.video__list_item image{
+    width: 100%;
 }
 
 .video__list_item button{
@@ -92,7 +99,6 @@ page{
 .pos {
   position: absolute;
   opacity: 0;
-
 }
 .pop{
     position: fixed;

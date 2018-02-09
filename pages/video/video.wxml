@@ -21,13 +21,15 @@
       <image src="/assets/add_video.png"></image>
       <view class="text">拍摄自己的小视频</view>
     </view>
-    <view class="tip2">瓜分10,000.00现金红包</view>
+    <view class="tip2">瓜分100,000.00现金红包</view>
     <view class="tip3">数量有限先到先得</view>
   </view>
   <view class="video__list">
     <block wx:for="{{ videoList }}" wx:key="{{item[0]}}">
       <view class="video__list_item">
-        <image src="{{ item[2] }}" data-key='{{item[1]}}' data-img='{{item[2]}}' bindtap='playVideo'></image>
+        <view class="cover">
+          <image src="{{ item[2] }}" mode="widthFix" data-key='{{item[1]}}' data-img='{{item[2]}}' bindtap='playVideo'></image>
+        </view>
         <button bindtap='useVideo' data-item="{{item}}">使用</button>
       </view>
     </block>

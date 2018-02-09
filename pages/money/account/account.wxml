@@ -2,12 +2,11 @@
     <!-- 收支明细 -->
     <scroll-view class="account_list" scroll-y="true">
         <view class="account_list_item" wx:for="{{ accountList }}" wx:key="id">
-            <view class="type {{ item.type == 1 ? 'blue':'orange' }}">
+            <view class="type {{ item.type == '支出' ? 'blue':'orange' }}">
                 {{ item.type }}
                 <text>{{ item.money }}元</text>
             </view>
-            <!-- 状态为提现中时，在class="text"变更为 class="text grey" -->
-            <view class="text">
+             <view class="text">
                 {{ item.name }}
                 <text>{{ item.createTime }}</text>
             </view>

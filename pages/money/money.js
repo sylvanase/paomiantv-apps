@@ -24,13 +24,11 @@ Page({
       var amount = this.data.amount;
       var balance = this.data.balance;
       if (amount > balance) {
-        showMsg("余额不足，不能提现");
+        app.showMsg("余额不足，不能提现");
         amount = balance
-        this.setData({
-          amount: balance
-        })
         var fee = util.roundFun(amount * 0.02, 2)
         this.setData({
+          amount: balance,
           fee: fee
         })
       } else {
@@ -66,7 +64,7 @@ Page({
     var amount = this.data.amount;
     var balance = this.data.balance;
     if (amount > balance) {
-      showMsg("余额不足，不能提现");
+      app.showMsg("余额不足，不能提现");
       return;
     }
 
@@ -93,28 +91,25 @@ Page({
           createBtnDisabled: false
         });
         if (result.data && result.data.status == 0) {
-          showMsg("提交成功");
+          app.showMsg("您的提现已经受理，1~5个工作日发送到您微信钱包");
+          this.setData({
+            amount: null,
+            fee: 0
+          })
           this.getAccount();
         } else {
-          showMsg(result.data.error);
+          app.showMsg(result.data.error);
         }
       }
     })
   },
 
   allCash: function () {
+    var fee = util.roundFun(this.data.balance * 0.02, 2)
     this.setData({
-      amount: this.data.balance
-    });
-    if (this.data.amount && this.data.amount > 0) {
-
-    }
+      amount: this.data.balance,
+      fee: fee
+    })
   },
 
 })
-function showMsg(str) {
-  wx.showToast({
-    title: str,
-    icon: 'none'
-  })
-}

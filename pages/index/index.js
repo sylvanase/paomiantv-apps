@@ -7,7 +7,6 @@ const app = getApp()
 Page({
   data: {
     userInfo: {},
-    videoPacket: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isShowPop: false, // 是否显示pop
@@ -61,12 +60,19 @@ Page({
       })
       return;
     }
+
+    wx.showLoading({
+      title: '初始化中...',
+      mask: true
+    })
+
     var reqCounter = 0;
     var interval = setInterval(func => {
       reqCounter++;
       if (app.globalData.jsessionid) {
         this.getRedPacketVideo();
         this.getAccount();
+        wx.hideLoading();
         clearInterval(interval);
       } else {
         if (reqCounter > 100) {
@@ -131,34 +137,25 @@ Page({
     })
   },
   openRedPacket: function () {
-    if (this.data.videoPacket) {
-      var videoPacket = this.data.videoPacket;
-      var packet = {
-        title: videoPacket.redpacket_title,
-        amount: videoPacket.redpacket_amount,
-        number: videoPacket.redpacket_number,
-        type: videoPacket.redpacket_type,
-        videoId: videoPacket.video_id,
-        videoImgUrl: videoPacket.img_url,
-        videoUrl: videoPacket.video_url,
-      }
-      console.log("packet=" + JSON.stringify(packet));
-      this.setData({
-        isShowPop: false,
-        packet: packet
-      })
-    }
-  },
-
-  onPopclose: function () {
     this.setData({
       isShowPop: false
     })
   },
 
+  onPopclose: function () {
+    this.setData({
+      isShowPop: false,
+      packet: null
+    })
+  },
+
   playVideo: function () {
+    //TODO
+    this.setData({
+      refresh: false
+    })
     wx.navigateTo({
-      url: '/pages/video/preview/index?videoUrl=' + this.data.packet.videoUrl + "&imgUrl=" + this.data.packet.videoImgUrl,
+      url: '/pages/video/preview/index?videoUrl=' + this.data.packet.video_url + "&imgUrl=" + this.data.packet.mg_url,
     })
   },
 
@@ -171,25 +168,28 @@ Page({
         if (!result.data || !result.data.data) {
           return;
         }
+
+        if (result.data.data.redpacket_amount == 0) {
+          result.data.data.redpacket_amount = null
+        }
+        if (result.data.data.redpacket_number == 0) {
+          result.data.data.redpacket_number = null
+        }
+
+        result.data.data.redpacket_title = null
+
         if (result.data.status == 51000) {
           this.setData({
-            videoPacket: result.data.data,
+            packet: result.data.data,
             isShowPop: true
           })
-        } else if (result.data.status == 50003) {
-          var videoPacket = result.data.data;
-          var packet = {
-            title: videoPacket.redpacket_title,
-            amount: videoPacket.redpacket_amount,
-            number: videoPacket.redpacket_number,
-            type: videoPacket.redpacket_type,
-            videoId: videoPacket.video_id,
-            videoImgUrl: videoPacket.img_url,
-            videoUrl: videoPacket.video_url,
-          }
-
+        } else if (result.data.status == 50001) {
           this.setData({
-            packet: packet,
+            packet: result.data.data,
+          })
+        } else if (result.data.status == 50003) {
+          this.setData({
+            packet: result.data.data,
           })
         }
       }
@@ -213,38 +213,52 @@ Page({
 
   //创建视频红包
   createVideoPacket: function () {
-    //TODO
-    console.log("title.length=" + this.data.packet.title.length);
-    if (!this.data.packet.title || this.data.packet.title.length > 10 || this.data.packet.title.length < 2) {
-      app.showMsg('祝福语的长度在2-10个之间');
-      return;
+
+    if (this.data.packet.redpacket_title) {
+      if (this.data.packet.redpacket_title.length > 10 || this.data.packet.redpacket_title.length < 2) {
+        app.showMsg('祝福语的长度在2-10个之间');
+        return;
+      }
     }
 
-    if (!this.data.packet.amount || this.data.packet.amount < 1) {
+
+    if (!this.data.packet.redpacket_amount || this.data.packet.redpacket_amount < 1) {
       app.showMsg('红包的赏金最小为1元');
       return;
     }
-    console.log(this.data.packet.amount / this.data.packet.number)
-    if (this.data.packet.type == 1) {
-      if (this.data.packet.amount < 50 && (this.data.packet.amount / this.data.packet.number) < 1) {
+
+    if (this.data.packet.redpacket_amount > 2000) {
+      app.showMsg('您的红包太大了，消化不了');
+      return;
+    }
+
+
+    if (this.data.packet.redpacket_number < 1) {
+      app.showMsg('请输入红包个数');
+      return;
+    }
+
+    console.log(this.data.packet.redpacket_amount / this.data.packet.redpacket_amount)
+    if (this.data.packet.redpacket_type == 1) {
+      if (this.data.packet.redpacket_amount < 50 && (this.data.packet.redpacket_amount / this.data.packet.redpacket_number) < 1) {
         app.showMsg('请保证红包的赏金人均不低于1元');
         return;
       }
     }
-    var amount = util.roundFun(this.data.packet.amount, 2);
-    var number = util.roundFun(this.data.packet.number, 0);
+    var amount = util.roundFun(this.data.packet.redpacket_amount, 2);
+    var number = util.roundFun(this.data.packet.redpacket_number, 0);
     this.setData({
-      'packet.amount': amount,
-      'packet.number': number
+      'packet.redpacket_amount': amount,
+      'packet.redpacket_number': number
     });
 
-    if (!this.data.packet.videoId) {
+    if (!this.data.packet.video_id || this.data.packet.video_id == '') {
       app.showMsg('请选择个视频先');
       return;
     }
 
 
-    if (this.data.packet.type == 1) {
+    if (this.data.packet.redpacket_type == 1) {
       if (!this.data.ignoreBalance && amount > this.data.balance) {
         app.showMsg('余额不足，请先充值');
         //TODO
@@ -256,8 +270,8 @@ Page({
       }
     }
 
-    if (!this.data.packet.type) {
-      this.data.packet.type = 1;
+    if (!this.data.packet.redpacket_type) {
+      this.data.packet.redpacket_type = 1;
     }
 
     this.setData({
@@ -265,6 +279,10 @@ Page({
     });
 
     var sessionid = app.globalData.jsessionid;
+    var redpacket_title = this.data.packet.redpacket_title;
+    if (!redpacket_title) {
+      redpacket_title = '恭喜发财新年快乐'
+    }
     wx.request({
       url: app.globalData.baseUrl + '/p1/redpacket_video/create?jsessionid=' + sessionid,
       method: 'POST',
@@ -273,9 +291,9 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       data: {
-        "redpacket_title": this.data.packet.title,
-        "video_id": this.data.packet.videoId,
-        "redpacket_type": this.data.packet.type,
+        "redpacket_title": redpacket_title,
+        "video_id": this.data.packet.video_id,
+        "redpacket_type": this.data.packet.redpacket_type,
         "redpacket_amount": amount,
         "redpacket_number": number
       },
@@ -290,7 +308,7 @@ Page({
         if (result.data && result.data.status == 0) {
           app.showMsg("创建成功");
           wx.navigateTo({
-            url: '../index/share/share?packetId=' + result.data.data.redpacket_id + "&type=" + this.data.packet.type,
+            url: '../index/share/share?packetId=' + result.data.data.redpacket_id + "&type=" + this.data.packet.redpacket_type,
           })
         } else {
           app.showMsg(result.data.error);
@@ -341,7 +359,9 @@ Page({
             fail: res => {
               //系统错误
               console.log("payment res=" + JSON.stringify(res));
-              app.showMsg(res.errMsg);
+              if (res.errMsg == 'requestPayment:fail cancel') {
+                app.showMsg("您取消了支付");
+              }
             },
           });
 
@@ -354,9 +374,14 @@ Page({
   },
 
   payCheck: function (orderId) {
+    wx.showLoading({
+      title: '正在检查充值结果...',
+      mask: true
+    })
     var counter = 5;
     var intervalId = setInterval(func => {
       if (counter < 1) {
+        wx.hideLoading()
         app.showMsg("正在到账中，请稍后查看")
         clearInterval(intervalId);
         return;
@@ -378,6 +403,7 @@ Page({
               ignoreBalance: false
             })
             this.getAccount();
+            wx.hideLoading()
             clearInterval(intervalId);
           }
         }

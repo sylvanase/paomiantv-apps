@@ -21,9 +21,9 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#daab5f",
-    "navigationBarTitleText": "泡面小红包",
+    "navigationBarTitleText": "拆泡面领包包",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#eeeeee"
+    "backgroundColor": "#c63629"
   },
   "debug": true
 }
